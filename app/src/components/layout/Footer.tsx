@@ -94,12 +94,12 @@ export function Footer() {
         borderTopColor: "var(--color-border)",
         backgroundColor: "var(--color-surface)",
       }}
-      className="border-t"
+      className="w-full border-t"
     >
-      <div className="mx-auto max-w-6xl px-6 py-12">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mx-auto w-full max-w-6xl px-6 py-12">
+        <div className="grid w-full grid-cols-1 gap-8 md:grid-cols-4">
           {/* Brand column */}
-          <div className="lg:col-span-2">
+          <div className="w-full pr-12 md:col-span-2">
             <Link
               href="/"
               className="cursor-pointer text-base font-semibold tracking-tight transition-opacity duration-150 hover:opacity-70"
@@ -111,7 +111,7 @@ export function Footer() {
               Portfolio
             </Link>
             <p
-              className="mt-3 max-w-xs text-sm leading-relaxed"
+              className="mt-3 text-sm leading-relaxed"
               style={{ color: "var(--color-text-secondary)" }}
             >
               Designing and building digital products with clarity and purpose.
@@ -154,7 +154,7 @@ export function Footer() {
 
           {/* Navigation columns */}
           {NAV_COLUMNS.map(({ heading, links }) => (
-            <div key={heading}>
+            <div key={heading} className="md:justify-self-end">
               <h2
                 className="text-xs font-semibold uppercase tracking-widest"
                 style={{ color: "var(--color-text-muted)" }}
