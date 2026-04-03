@@ -39,7 +39,7 @@ export default function RootLayout({
       className={`${archivo.variable} ${spaceGrotesk.variable}`}
       suppressHydrationWarning
     >
-      <body>
+      <body suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

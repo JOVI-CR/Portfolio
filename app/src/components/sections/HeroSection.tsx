@@ -74,10 +74,10 @@ export function HeroSection() {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="flex min-h-[80vh] items-center"
+      className="flex min-h-[80vh] w-full items-center"
     >
       <div className="w-full py-16">
-        <div className="mx-auto max-w-3xl px-4 sm:px-6">
+        <div className="mx-auto w-full max-w-4xl px-4 sm:px-6">
           {/* Eyebrow label */}
           <p
             className="mb-6 text-sm font-medium uppercase tracking-widest"
@@ -108,7 +108,7 @@ export function HeroSection() {
 
           {/* Body — technologies */}
           <p
-            className="mt-6 max-w-xl text-base leading-relaxed sm:text-lg"
+            className="mt-6 text-base leading-relaxed sm:text-lg"
             style={{
               fontFamily: "var(--font-body), system-ui, sans-serif",
               color: "var(--color-text-secondary)",
