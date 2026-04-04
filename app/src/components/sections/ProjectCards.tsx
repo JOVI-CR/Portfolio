@@ -10,9 +10,6 @@ import {
 } from "lucide-react";
 import type { ReactNode } from "react";
 
-// ─── Brand icons (monochromatic, currentColor, 16×16) ────────────────────────
-// Scoped to project cards — smaller than TechStack equivalents (20→16)
-
 function PythonIcon() {
   return (
     <svg
@@ -106,16 +103,14 @@ function NextJsIcon() {
 function JavaScriptIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={16} height={16} aria-hidden="true">
-      {/* Same rounded box as TypeScript */}
       <rect x="2" y="2" width="20" height="20" rx="3" stroke="currentColor" strokeWidth="1.5" />
-      {/* J — vertical stroke that hooks left at the base */}
       <path
         d="M10.5 9.5v4.5c0 1.2-.8 1.75-1.75 1.75-.65 0-1.2-.35-1.5-.9"
         stroke="currentColor"
         strokeWidth="1.75"
         strokeLinecap="round"
       />
-      {/* S — same bezier approximation as TypeScript */}
+
       <path
         d="M14 9.5c2 0 2.5 1 2.5 1.5s-1 1.25-2 1.25-2 .75-2 1.5 1 1.75 2.5 1.75"
         stroke="currentColor"
@@ -175,14 +170,14 @@ const PROJECTS: Project[] = [
     title: "ChurnInsight",
     tag: "Hackathon",
     description:
-      "Data-driven analysis tool designed for customer retention mapping. Identifies churn risk patterns using behavioral data and delivers actionable retention recommendations.",
+      "Architected a decoupled microservices system to predict banking customer churn. Built a Java/Spring Boot API gateway that orchestrates requests to a Python/FastAPI inference engine, utilizing a dual-contract pattern to safely isolate ML models from external integrations.",
     techStack: [
       <PythonIcon key="py" />,
       <Database key="db" {...ICON_PROPS} />,
       <JavaIcon key="java" />,
       <SpringBootIcon key="spring" />,
     ],
-    link: { label: "GitHub", href: "#" },
+    link: { label: "GitHub", href: "https://github.com/FabioAguiar/churninsight-hackathon-one" },
   },
   {
     title: "Ink Manager",
@@ -223,7 +218,7 @@ function ProjectCard({ project }: { project: Project }) {
         borderColor: "var(--color-border)",
       }}
     >
-      {/* Top — grows to push footer down */}
+
       <div className="flex-1">
         {project.tag && (
           <div className="mb-3">
@@ -252,12 +247,10 @@ function ProjectCard({ project }: { project: Project }) {
         </p>
       </div>
 
-      {/* Bottom — tech stack + link */}
       <div
         className="mt-6 flex items-center justify-between border-t pt-4"
         style={{ borderColor: "var(--color-border)" }}
       >
-        {/* Tech icons */}
         <ul
           role="list"
           className="flex items-center gap-3"
@@ -269,7 +262,6 @@ function ProjectCard({ project }: { project: Project }) {
           ))}
         </ul>
 
-        {/* Link */}
         <a
           href={project.link.href}
           target={project.link.href !== "#" ? "_blank" : undefined}
@@ -298,9 +290,8 @@ function ProjectCard({ project }: { project: Project }) {
 
 export function ProjectCards() {
   return (
-    <section aria-labelledby="projects-heading" className="w-full py-24">
+    <section id="projects" aria-labelledby="projects-heading" className="w-full py-24">
       <div className="mx-auto w-full max-w-4xl px-4 sm:px-6">
-        {/* Section label */}
         <p
           className="mb-2 text-xs font-semibold uppercase tracking-widest"
           style={{ color: "var(--color-text-muted)" }}
@@ -319,7 +310,6 @@ export function ProjectCards() {
           Featured Projects
         </h2>
 
-        {/* Card grid */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {PROJECTS.map((project) => (
             <ProjectCard key={project.title} project={project} />

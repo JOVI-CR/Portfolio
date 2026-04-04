@@ -36,7 +36,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${archivo.variable} ${spaceGrotesk.variable}`}
+      className={`${archivo.variable} ${spaceGrotesk.variable} motion-safe:scroll-smooth`}
       suppressHydrationWarning
     >
       <body suppressHydrationWarning>

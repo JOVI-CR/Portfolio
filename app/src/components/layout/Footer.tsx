@@ -35,17 +35,17 @@ function IconLinkedIn(props: SVGProps<SVGSVGElement>) {
 
 const SOCIAL_LINKS: Array<{ href: string; label: string; icon: ReactNode }> = [
   {
-    href: "https://github.com",
+    href: "https://github.com/JOVI-CR",
     label: "GitHub profile",
     icon: <IconGitHub />,
   },
   {
-    href: "https://linkedin.com",
+    href: "https://www.linkedin.com/in/joao-vitor-carlos-da-rocha/",
     label: "LinkedIn profile",
     icon: <IconLinkedIn />,
   },
   {
-    href: "mailto:hello@example.com",
+    href: "mailto:jvcr1501@gmail.com",
     label: "Send email",
     icon: (
       <svg

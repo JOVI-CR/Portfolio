@@ -1,22 +1,18 @@
 "use client";
 
-import Link from "next/link";
 import { ArrowRight, Mail } from "lucide-react";
 import { useRef } from "react";
 
-function PrimaryButton({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
-  const ref = useRef<HTMLAnchorElement>(null);
+function PrimaryButton({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLButtonElement>(null);
 
   return (
-    <Link
+    <button
       ref={ref}
-      href={href}
+      type="button"
+      onClick={() => {
+        document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+      }}
       className="inline-flex cursor-pointer items-center gap-2 rounded-lg px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:-translate-y-px"
       style={{ backgroundColor: "var(--color-cta)" }}
       onMouseEnter={() => {
@@ -29,7 +25,7 @@ function PrimaryButton({
       }}
     >
       {children}
-    </Link>
+    </button>
   );
 }
 
@@ -43,7 +39,7 @@ function OutlineButton({
   const ref = useRef<HTMLAnchorElement>(null);
 
   return (
-    <Link
+    <a
       ref={ref}
       href={href}
       className="inline-flex cursor-pointer items-center gap-2 rounded-lg border-2 px-6 py-3 text-sm font-semibold transition-all duration-200 hover:-translate-y-px"
@@ -66,7 +62,7 @@ function OutlineButton({
       }}
     >
       {children}
-    </Link>
+    </a>
   );
 }
 
@@ -78,15 +74,13 @@ export function HeroSection() {
     >
       <div className="w-full py-16">
         <div className="mx-auto w-full max-w-4xl px-4 sm:px-6">
-          {/* Eyebrow label */}
           <p
             className="mb-6 text-sm font-medium uppercase tracking-widest"
             style={{ color: "var(--color-cta)" }}
           >
-            Available for work
+            BUILDING SCALABLE SYSTEMS
           </p>
 
-          {/* H1 — primary identity */}
           <h1
             id="hero-heading"
             className="text-5xl font-bold leading-[1.1] tracking-tight sm:text-6xl lg:text-7xl"
@@ -95,7 +89,6 @@ export function HeroSection() {
             Hi, I&apos;m&nbsp;João.
           </h1>
 
-          {/* H2 — professional role, muted for visual hierarchy */}
           <h2
             className="mt-4 text-xl font-medium leading-snug sm:text-2xl"
             style={{
@@ -106,7 +99,6 @@ export function HeroSection() {
             Software Developer specializing in Backend Architecture.
           </h2>
 
-          {/* Body — technologies */}
           <p
             className="mt-6 text-base leading-relaxed sm:text-lg"
             style={{
@@ -118,9 +110,8 @@ export function HeroSection() {
             Spring Boot, and C#.
           </p>
 
-          {/* CTA row */}
           <div className="mt-10 flex flex-wrap items-center gap-4">
-            <PrimaryButton href="/projects">
+            <PrimaryButton>
               View Projects
               <ArrowRight
                 size={16}
@@ -130,7 +121,7 @@ export function HeroSection() {
               />
             </PrimaryButton>
 
-            <OutlineButton href="/contact">
+            <OutlineButton href="mailto:jvcr1501@gmail.com">
               <Mail size={16} strokeWidth={1.75} aria-hidden="true" />
               Contact Me
             </OutlineButton>
