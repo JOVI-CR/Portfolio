@@ -33,14 +33,20 @@ export const metadata: Metadata = {
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     type: "website",
-    // TODO: add an og:image (1200x630) once one is created — intentionally
-    // omitted for now rather than pointing at a non-existent file.
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: SITE_TITLE,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,
-    // TODO: add a twitter:image once the OG image asset exists.
+    images: ["/og-image.png"],
   },
 };
 
