@@ -210,8 +210,7 @@ const PROJECTS: Project[] = [
       </TechIconTooltip>,
     ],
     link: { label: "Live Site", href: "https://www.adrianiimoveis.com.br/" },
-    // TODO: confirm exact docs repo URL before adding this link. Do NOT link the private backend repo.
-    secondaryLink: { label: "Docs", href: "#" },
+    secondaryLink: { label: "Docs", href: "https://github.com/JOVI-CR/adriani-Imoveis-docs" },
   },
   {
     title: "Gestão-360",
