@@ -28,6 +28,7 @@
   --transition-fast: 150ms ease;
   --transition-base: 200ms ease;
   --transition-slow: 300ms ease;
+  --transition-glow: 900ms ease-out;
 }
 
 /* ─── Light mode (default) ────────────────────────────────────────────────── */

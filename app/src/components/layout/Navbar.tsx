@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Moon, Sun, Menu, X } from "lucide-react";
-import type { SVGProps } from "react";
+import type { CSSProperties, SVGProps } from "react";
 
 // ─── Social icons (same paths as Footer) ─────────────────────────────────────
 
@@ -108,17 +108,114 @@ function ThemeToggle() {
   );
 }
 
-// ─── Navbar ───────────────────────────────────────────────────────────────────
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
 
-// Settle delay mirrors --transition-slow (300ms) — a JS timeout can't reference the CSS var directly.
-const HOME_FLASH_SETTLE_MS = 300;
+// ─── Nav link (shared click-flash behavior for every header link) ─────────────
+
+// Hold at peak brightness for one --transition-fast (150ms) before the ember
+// fade begins — a JS timeout can't reference the CSS var duration directly.
+const NAV_FLASH_HOLD_MS = 150;
+
+function useNavFlash() {
+  const [flashing, setFlashing] = useState(false);
+  const timeoutRef = useRef<number | undefined>(undefined);
+
+  useEffect(() => () => window.clearTimeout(timeoutRef.current), []);
+
+  function trigger() {
+    window.clearTimeout(timeoutRef.current);
+    setFlashing(true);
+    timeoutRef.current = window.setTimeout(() => setFlashing(false), NAV_FLASH_HOLD_MS);
+  }
+
+  return [flashing, trigger] as const;
+}
+
+interface NavLinkProps {
+  href: string;
+  label: string;
+  isAnchor: boolean;
+  isActive: boolean;
+  className: string;
+  onNavigate?: () => void;
+}
+
+function NavLink({ href, label, isAnchor, isActive, className, onNavigate }: NavLinkProps) {
+  const [flashing, triggerFlash] = useNavFlash();
+
+  const style: CSSProperties = {
+    color: flashing ? "var(--color-cta)" : "var(--color-text-secondary)",
+    textShadow: flashing ? "0 0 10px var(--color-focus-ring)" : "0 0 0 transparent",
+    transition: flashing
+      ? "color var(--transition-fast), text-shadow var(--transition-fast)"
+      : "color var(--transition-glow), text-shadow var(--transition-glow)",
+  };
+
+  function handleClick() {
+    triggerFlash();
+    onNavigate?.();
+  }
+
+  if (isAnchor) {
+    return (
+      <a
+        href={href}
+        className={className}
+        style={style}
+        onClick={handleClick}
+        onMouseEnter={(e) => {
+          if (!flashing) {
+            e.currentTarget.style.color = "var(--color-text)";
+            e.currentTarget.style.backgroundColor = "var(--color-surface-raised)";
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!flashing) {
+            e.currentTarget.style.color = "var(--color-text-secondary)";
+            e.currentTarget.style.backgroundColor = "transparent";
+          }
+        }}
+      >
+        {label}
+      </a>
+    );
+  }
+
+  return (
+    <Link
+      href={href}
+      scroll={false}
+      aria-current={isActive ? "page" : undefined}
+      className={className}
+      style={style}
+      onClick={handleClick}
+      onMouseEnter={(e) => {
+        if (!flashing) {
+          e.currentTarget.style.color = "var(--color-text)";
+          e.currentTarget.style.backgroundColor = "var(--color-surface-raised)";
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!flashing) {
+          e.currentTarget.style.color = "var(--color-text-secondary)";
+          e.currentTarget.style.backgroundColor = "transparent";
+        }
+      }}
+    >
+      {label}
+    </Link>
+  );
+}
+
+// ─── Navbar ───────────────────────────────────────────────────────────────────
 
 export function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [prevPathname, setPrevPathname] = useState(pathname);
-  const [homeFlash, setHomeFlash] = useState(false);
 
   // Close mobile menu on route change (adjusted during render, not in an effect)
   if (pathname !== prevPathname) {
@@ -131,12 +228,6 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  function handleHomeClick() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    setHomeFlash(true);
-    window.setTimeout(() => setHomeFlash(false), HOME_FLASH_SETTLE_MS);
-  }
 
   return (
     <header
@@ -171,59 +262,17 @@ export function Navbar() {
         <ul role="list" className="hidden items-center gap-1 md:flex">
           {NAV_LINKS.map(({ href, label, isAnchor }) => {
             const isActive = !isAnchor && (href === "/" ? pathname === "/" : pathname.startsWith(href));
-            const baseClass =
-              "cursor-pointer rounded-md px-3 py-2 text-sm font-medium transition-colors duration-150";
-
-            if (isAnchor) {
-              return (
-                <li key={href}>
-                  <a
-                    href={href}
-                    className={baseClass}
-                    style={{ color: "var(--color-text-secondary)" }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLAnchorElement).style.color = "var(--color-text)";
-                      (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "var(--color-surface-raised)";
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLAnchorElement).style.color = "var(--color-text-secondary)";
-                      (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "transparent";
-                    }}
-                  >
-                    {label}
-                  </a>
-                </li>
-              );
-            }
 
             return (
               <li key={href}>
-                <Link
+                <NavLink
                   href={href}
-                  aria-current={isActive ? "page" : undefined}
-                  className={baseClass}
-                  style={{
-                    color: homeFlash ? "var(--color-cta)" : "var(--color-text-secondary)",
-                    transition: homeFlash
-                      ? "color var(--transition-fast)"
-                      : "color var(--transition-slow)",
-                  }}
-                  onClick={handleHomeClick}
-                  onMouseEnter={(e) => {
-                    if (!homeFlash) {
-                      (e.currentTarget as HTMLAnchorElement).style.color = "var(--color-text)";
-                      (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "var(--color-surface-raised)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!homeFlash) {
-                      (e.currentTarget as HTMLAnchorElement).style.color = "var(--color-text-secondary)";
-                      (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "transparent";
-                    }
-                  }}
-                >
-                  {label}
-                </Link>
+                  label={label}
+                  isAnchor={isAnchor}
+                  isActive={isActive}
+                  className="cursor-pointer rounded-md px-3 py-2 text-sm font-medium"
+                  onNavigate={href === "/" ? scrollToTop : undefined}
+                />
               </li>
             );
           })}
@@ -308,42 +357,20 @@ export function Navbar() {
             {/* Nav links */}
             {NAV_LINKS.map(({ href, label, isAnchor }) => {
               const isActive = !isAnchor && (href === "/" ? pathname === "/" : pathname.startsWith(href));
-              const sharedClass =
-                "block w-full cursor-pointer rounded-md px-3 py-2.5 text-sm font-medium transition-colors duration-150";
-
-              if (isAnchor) {
-                return (
-                  <a
-                    key={href}
-                    href={href}
-                    className={sharedClass}
-                    style={{ color: "var(--color-text-secondary)" }}
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    {label}
-                  </a>
-                );
-              }
 
               return (
-                <Link
+                <NavLink
                   key={href}
                   href={href}
-                  aria-current={isActive ? "page" : undefined}
-                  className={sharedClass}
-                  style={{
-                    color: homeFlash ? "var(--color-cta)" : "var(--color-text-secondary)",
-                    transition: homeFlash
-                      ? "color var(--transition-fast)"
-                      : "color var(--transition-slow)",
-                  }}
-                  onClick={() => {
-                    handleHomeClick();
+                  label={label}
+                  isAnchor={isAnchor}
+                  isActive={isActive}
+                  className="block w-full cursor-pointer rounded-md px-3 py-2.5 text-sm font-medium"
+                  onNavigate={() => {
+                    if (href === "/") scrollToTop();
                     setMobileOpen(false);
                   }}
-                >
-                  {label}
-                </Link>
+                />
               );
             })}
 
