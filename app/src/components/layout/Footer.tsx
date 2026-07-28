@@ -197,7 +197,7 @@ export function Footer() {
             className="text-xs"
             style={{ color: "var(--color-text-muted)" }}
           >
-            &copy; {year} Portfolio. All rights reserved.
+            &copy; {year} João Vítor Carlos da Rocha. All rights reserved.
           </p>
           <p
             className="text-xs"
