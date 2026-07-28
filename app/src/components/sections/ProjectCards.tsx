@@ -12,23 +12,6 @@ import {
 import type { ReactNode } from "react";
 import { TechIconTooltip } from "@/components/ui/TechIconTooltip";
 
-function PythonIcon() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="currentColor"
-      width={16}
-      height={16}
-      aria-hidden="true"
-    >
-      {/* Top snake — right-facing */}
-      <path d="M12 2c-2.21 0-4 1.15-4 3.5V7h4v1H6C3.79 8 2 9.79 2 12v2.5C2 16.85 3.79 18 6 18h1.5v-2c0-2.21 1.79-4 4-4h3c2.21 0 4-1.79 4-4V5.5C18.5 3.15 16.71 2 14.5 2H12zm-.75 2.25c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1z" />
-      {/* Bottom snake — left-facing */}
-      <path d="M12 22c2.21 0 4-1.15 4-3.5V17h-4v-1h6c2.21 0 4-1.79 4-4v-2.5C22 7.15 20.21 6 18 6h-1.5v2c0 2.21-1.79 4-4 4h-3c-2.21 0-4 1.79-4 4V18.5C5.5 20.85 7.29 22 9.5 22H12zm.75-2.25c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z" />
-    </svg>
-  );
-}
-
 function JavaIcon() {
   return (
     <svg
@@ -186,7 +169,7 @@ const ICON_PROPS = { size: 16, strokeWidth: 1.5, "aria-hidden": true } as const;
 const PROJECTS: Project[] = [
   {
     title: "Adriani Imóveis — Real Estate Agency Platform",
-    tag: "Personal Project",
+    tag: "Freelance Project",
     description:
       "Full-stack real estate platform built for a real estate agency in Cabo Frio, RJ — replacing their legacy site. Backend in Java 21 / Spring Boot 3.3, PostgreSQL, with Google OAuth2, Stripe payments, and automated email workflows (Resend). Frontend in Next.js 16 / TypeScript, deployed on Vercel.",
     techStack: [
@@ -213,10 +196,10 @@ const PROJECTS: Project[] = [
     secondaryLink: { label: "Docs", href: "https://github.com/JOVI-CR/adriani-Imoveis-docs" },
   },
   {
-    title: "Gestão-360",
+    title: "Gestão Espírita 360",
     tag: "Volunteer Project",
     description:
-      "Management platform for spiritual centers, focused on workflow optimization and scalable backend architecture. Designed for multi-tenant operation with role-based access control.",
+      "Volunteer-built management platform for Brazilian spiritist centers (centros espíritas), focused on workflow optimization and scalable backend architecture. Designed for multi-tenant operation with role-based access control.",
     techStack: [
       <TechIconTooltip key="ts" label="TypeScript">
         <TypeScriptIcon />
@@ -234,17 +217,10 @@ const PROJECTS: Project[] = [
   },
   {
     title: "ChurnInsight",
-    tag: "Hackathon",
+    tag: "Oracle ONE Hackathon",
     description:
-      "Architected a decoupled microservices system to predict banking customer churn. Built a Java/Spring Boot API gateway that orchestrates requests to a Python/FastAPI inference engine, utilizing a dual-contract pattern to safely isolate ML models from external integrations.",
+      "Contributed the Java/Spring Boot backend layer of a decoupled microservices system predicting banking customer churn, building the API gateway that orchestrates requests to a separate team's Python/FastAPI inference engine — using a dual-contract pattern to safely isolate ML models from external integrations.",
     techStack: [
-      <TechIconTooltip key="py" label="Python">
-        <PythonIcon />
-      </TechIconTooltip>,
-      // TODO: confirm specific DB engine for a more precise tooltip label.
-      <TechIconTooltip key="db" label="Database">
-        <Database {...ICON_PROPS} />
-      </TechIconTooltip>,
       <TechIconTooltip key="java" label="Java">
         <JavaIcon />
       </TechIconTooltip>,
@@ -255,10 +231,10 @@ const PROJECTS: Project[] = [
     link: { label: "GitHub", href: "https://github.com/FabioAguiar/churninsight-hackathon-one" },
   },
   {
-    title: "Ink Manager",
+    title: "Ink Manager — Tattoo Studio Management",
     tag: "Academic",
     description:
-      "Collaborative academic project for tattoo studio management, featuring comprehensive technical documentation, a RESTful API layer, and a structured frontend UI built for real-world workflow.",
+      "Collaborative academic project building the complete frontend for a tattoo studio management application, using vanilla JavaScript, HTML, and CSS. Focused on structured team workflows — Git version control, GitHub backlog organization, and coordinated feature delivery across a multi-person team.",
     techStack: [
       <TechIconTooltip key="js" label="JavaScript">
         <JavaScriptIcon />

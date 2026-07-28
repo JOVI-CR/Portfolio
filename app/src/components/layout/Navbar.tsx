@@ -110,11 +110,15 @@ function ThemeToggle() {
 
 // ─── Navbar ───────────────────────────────────────────────────────────────────
 
+// Settle delay mirrors --transition-slow (300ms) — a JS timeout can't reference the CSS var directly.
+const HOME_FLASH_SETTLE_MS = 300;
+
 export function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [prevPathname, setPrevPathname] = useState(pathname);
+  const [homeFlash, setHomeFlash] = useState(false);
 
   // Close mobile menu on route change (adjusted during render, not in an effect)
   if (pathname !== prevPathname) {
@@ -127,6 +131,12 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  function handleHomeClick() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    setHomeFlash(true);
+    window.setTimeout(() => setHomeFlash(false), HOME_FLASH_SETTLE_MS);
+  }
 
   return (
     <header
@@ -193,16 +203,20 @@ export function Navbar() {
                   aria-current={isActive ? "page" : undefined}
                   className={baseClass}
                   style={{
-                    color: isActive ? "var(--color-cta)" : "var(--color-text-secondary)",
+                    color: homeFlash ? "var(--color-cta)" : "var(--color-text-secondary)",
+                    transition: homeFlash
+                      ? "color var(--transition-fast)"
+                      : "color var(--transition-slow)",
                   }}
+                  onClick={handleHomeClick}
                   onMouseEnter={(e) => {
-                    if (!isActive) {
+                    if (!homeFlash) {
                       (e.currentTarget as HTMLAnchorElement).style.color = "var(--color-text)";
                       (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "var(--color-surface-raised)";
                     }
                   }}
                   onMouseLeave={(e) => {
-                    if (!isActive) {
+                    if (!homeFlash) {
                       (e.currentTarget as HTMLAnchorElement).style.color = "var(--color-text-secondary)";
                       (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "transparent";
                     }
@@ -318,9 +332,15 @@ export function Navbar() {
                   aria-current={isActive ? "page" : undefined}
                   className={sharedClass}
                   style={{
-                    color: isActive ? "var(--color-cta)" : "var(--color-text-secondary)",
+                    color: homeFlash ? "var(--color-cta)" : "var(--color-text-secondary)",
+                    transition: homeFlash
+                      ? "color var(--transition-fast)"
+                      : "color var(--transition-slow)",
                   }}
-                  onClick={() => setMobileOpen(false)}
+                  onClick={() => {
+                    handleHomeClick();
+                    setMobileOpen(false);
+                  }}
                 >
                   {label}
                 </Link>
