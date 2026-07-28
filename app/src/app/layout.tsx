@@ -19,13 +19,29 @@ const spaceGrotesk = Space_Grotesk({
   display: "swap",
 });
 
+const SITE_TITLE =
+  "João Vítor Carlos da Rocha — Backend Developer (Java/Spring Boot & .NET)";
+const SITE_DESCRIPTION =
+  "Backend developer specializing in Java/Spring Boot and C#/.NET, building full-stack systems from real estate platforms to pharmacy management applications. Currently pursuing a B.Sc. in Systems Analysis and Development.";
+
 export const metadata: Metadata = {
-  title: {
-    default: "Portfolio",
-    template: "%s | Portfolio",
+  // TODO: replace with production domain once deployment platform is decided.
+  metadataBase: new URL("https://TODO-domain.vercel.app"),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    type: "website",
+    // TODO: add an og:image (1200x630) once one is created — intentionally
+    // omitted for now rather than pointing at a non-existent file.
   },
-  description: "Design and development portfolio.",
-  metadataBase: new URL("https://example.com"),
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    // TODO: add a twitter:image once the OG image asset exists.
+  },
 };
 
 export default function RootLayout({

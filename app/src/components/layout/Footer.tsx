@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { ReactNode, SVGProps } from "react";
+import type { MouseEvent, ReactNode, SVGProps } from "react";
 
 function IconGitHub(props: SVGProps<SVGSVGElement>) {
   return (
@@ -66,20 +66,15 @@ const SOCIAL_LINKS: Array<{ href: string; label: string; icon: ReactNode }> = [
   },
 ];
 
+// "About" link intentionally omitted: no homepage section maps to "about"
+// content (Hero is intro copy, Tech Stack is skills, Project Cards is work),
+// so there's no natural anchor target — omitted rather than pointing at a 404.
 const NAV_COLUMNS = [
   {
     heading: "Navigation",
     links: [
-      { href: "/", label: "Home" },
-      { href: "/projects", label: "Projects" },
-      { href: "/about", label: "About" },
-    ],
-  },
-  {
-    heading: "Legal",
-    links: [
-      { href: "/privacy", label: "Privacy policy" },
-      { href: "/terms", label: "Terms of use" },
+      { href: "/", label: "Home", isAnchor: false },
+      { href: "#projects", label: "Projects", isAnchor: true },
     ],
   },
 ] as const;
@@ -97,7 +92,7 @@ export function Footer() {
       className="w-full border-t"
     >
       <div className="mx-auto w-full max-w-6xl px-6 py-12">
-        <div className="grid w-full grid-cols-1 gap-8 md:grid-cols-4">
+        <div className="grid w-full grid-cols-1 gap-8 md:grid-cols-3">
           {/* Brand column */}
           <div className="w-full pr-12 md:col-span-2">
             <Link
@@ -162,25 +157,32 @@ export function Footer() {
                 {heading}
               </h2>
               <ul role="list" className="mt-4 space-y-3">
-                {links.map(({ href, label }) => (
-                  <li key={href}>
-                    <Link
-                      href={href}
-                      className="cursor-pointer text-sm transition-colors duration-150"
-                      style={{ color: "var(--color-text-secondary)" }}
-                      onMouseEnter={(e) => {
-                        (e.currentTarget as HTMLAnchorElement).style.color =
-                          "var(--color-text)";
-                      }}
-                      onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLAnchorElement).style.color =
-                          "var(--color-text-secondary)";
-                      }}
-                    >
-                      {label}
-                    </Link>
-                  </li>
-                ))}
+                {links.map(({ href, label, isAnchor }) => {
+                  const sharedProps = {
+                    className: "cursor-pointer text-sm transition-colors duration-150",
+                    style: { color: "var(--color-text-secondary)" },
+                    onMouseEnter: (e: MouseEvent<HTMLAnchorElement>) => {
+                      e.currentTarget.style.color = "var(--color-text)";
+                    },
+                    onMouseLeave: (e: MouseEvent<HTMLAnchorElement>) => {
+                      e.currentTarget.style.color = "var(--color-text-secondary)";
+                    },
+                  };
+
+                  return (
+                    <li key={href}>
+                      {isAnchor ? (
+                        <a href={href} {...sharedProps}>
+                          {label}
+                        </a>
+                      ) : (
+                        <Link href={href} {...sharedProps}>
+                          {label}
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}

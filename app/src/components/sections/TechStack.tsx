@@ -1,6 +1,6 @@
 "use client";
 
-import { Database, GitBranch, Award, GraduationCap, Layers } from "lucide-react";
+import { Database, GitBranch, Award, GraduationCap } from "lucide-react";
 import type { ReactNode } from "react";
 
 function JavaIcon() {

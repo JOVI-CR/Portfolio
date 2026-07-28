@@ -2,13 +2,15 @@
 
 import {
   Database,
-  Brain,
-  MessageSquare,
   Code2,
   Braces,
   ArrowUpRight,
+  CreditCard,
+  Layers,
+  LayoutTemplate,
 } from "lucide-react";
 import type { ReactNode } from "react";
+import { TechIconTooltip } from "@/components/ui/TechIconTooltip";
 
 function PythonIcon() {
   return (
@@ -100,6 +102,46 @@ function NextJsIcon() {
   );
 }
 
+function CSharpIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      width={16}
+      height={16}
+      aria-hidden="true"
+    >
+      <path d="M11 8a4.5 4.5 0 1 0 0 8" />
+      <line x1="15.5" y1="9" x2="15.5" y2="15" />
+      <line x1="18.5" y1="9" x2="18.5" y2="15" />
+      <line x1="14" y1="11" x2="20" y2="11" />
+      <line x1="14" y1="13.5" x2="20" y2="13.5" />
+    </svg>
+  );
+}
+
+function DotNetIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      width={16}
+      height={16}
+      aria-hidden="true"
+    >
+      <path d="M12 3 20 12 12 21 4 12Z" />
+    </svg>
+  );
+}
+
 function JavaScriptIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" width={16} height={16} aria-hidden="true">
@@ -134,6 +176,7 @@ interface Project {
   tag?: string;
   techStack: ReactNode[];
   link: ProjectLink;
+  secondaryLink?: ProjectLink;
 }
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -142,17 +185,33 @@ const ICON_PROPS = { size: 16, strokeWidth: 1.5, "aria-hidden": true } as const;
 
 const PROJECTS: Project[] = [
   {
-    title: "Real Estate AI Agent",
+    title: "Adriani Imóveis — Real Estate Agency Platform",
     tag: "Personal Project",
     description:
-      "AI-powered WhatsApp assistant built to automate customer inquiries and lead qualification for a real estate business. Reduced manual response time through conversational AI and structured lead routing.",
+      "Full-stack real estate platform built for a real estate agency in Cabo Frio, RJ — replacing their legacy site. Backend in Java 21 / Spring Boot 3.3, PostgreSQL, with Google OAuth2, Stripe payments, and automated email workflows (Resend). Frontend in Next.js 16 / TypeScript, deployed on Vercel.",
     techStack: [
-      <JavaIcon key="java" />,
-      <SpringBootIcon key="spring" />,
-      <Brain key="ai" {...ICON_PROPS} />,
-      <MessageSquare key="ws" {...ICON_PROPS} />,
+      <TechIconTooltip key="java" label="Java">
+        <JavaIcon />
+      </TechIconTooltip>,
+      <TechIconTooltip key="spring" label="Spring Boot">
+        <SpringBootIcon />
+      </TechIconTooltip>,
+      <TechIconTooltip key="postgres" label="PostgreSQL">
+        <Database {...ICON_PROPS} />
+      </TechIconTooltip>,
+      <TechIconTooltip key="next" label="Next.js">
+        <NextJsIcon />
+      </TechIconTooltip>,
+      <TechIconTooltip key="ts" label="TypeScript">
+        <TypeScriptIcon />
+      </TechIconTooltip>,
+      <TechIconTooltip key="stripe" label="Stripe">
+        <CreditCard {...ICON_PROPS} />
+      </TechIconTooltip>,
     ],
-    link: { label: "GitHub", href: "#" },
+    link: { label: "Live Site", href: "https://www.adrianiimoveis.com.br/" },
+    // TODO: confirm exact docs repo URL before adding this link. Do NOT link the private backend repo.
+    secondaryLink: { label: "Docs", href: "#" },
   },
   {
     title: "Gestão-360",
@@ -160,10 +219,18 @@ const PROJECTS: Project[] = [
     description:
       "Management platform for spiritual centers, focused on workflow optimization and scalable backend architecture. Designed for multi-tenant operation with role-based access control.",
     techStack: [
-      <TypeScriptIcon key="ts" />,
-      <NextJsIcon key="next" />,
-      <Database key="db" {...ICON_PROPS} />,
+      <TechIconTooltip key="ts" label="TypeScript">
+        <TypeScriptIcon />
+      </TechIconTooltip>,
+      <TechIconTooltip key="next" label="Next.js">
+        <NextJsIcon />
+      </TechIconTooltip>,
+      // TODO: confirm specific DB engine for a more precise tooltip label.
+      <TechIconTooltip key="db" label="Database">
+        <Database {...ICON_PROPS} />
+      </TechIconTooltip>,
     ],
+    // TODO: confirm GitHub URL for Gestão Espírita 360 — pending answer.
     link: { label: "GitHub", href: "#" },
   },
   {
@@ -172,10 +239,19 @@ const PROJECTS: Project[] = [
     description:
       "Architected a decoupled microservices system to predict banking customer churn. Built a Java/Spring Boot API gateway that orchestrates requests to a Python/FastAPI inference engine, utilizing a dual-contract pattern to safely isolate ML models from external integrations.",
     techStack: [
-      <PythonIcon key="py" />,
-      <Database key="db" {...ICON_PROPS} />,
-      <JavaIcon key="java" />,
-      <SpringBootIcon key="spring" />,
+      <TechIconTooltip key="py" label="Python">
+        <PythonIcon />
+      </TechIconTooltip>,
+      // TODO: confirm specific DB engine for a more precise tooltip label.
+      <TechIconTooltip key="db" label="Database">
+        <Database {...ICON_PROPS} />
+      </TechIconTooltip>,
+      <TechIconTooltip key="java" label="Java">
+        <JavaIcon />
+      </TechIconTooltip>,
+      <TechIconTooltip key="spring" label="Spring Boot">
+        <SpringBootIcon />
+      </TechIconTooltip>,
     ],
     link: { label: "GitHub", href: "https://github.com/FabioAguiar/churninsight-hackathon-one" },
   },
@@ -185,10 +261,43 @@ const PROJECTS: Project[] = [
     description:
       "Collaborative academic project for tattoo studio management, featuring comprehensive technical documentation, a RESTful API layer, and a structured frontend UI built for real-world workflow.",
     techStack: [
-      <JavaScriptIcon key="js" />,
-      <Code2 key="html" {...ICON_PROPS} />,
-      <Braces key="css" {...ICON_PROPS} />,
+      <TechIconTooltip key="js" label="JavaScript">
+        <JavaScriptIcon />
+      </TechIconTooltip>,
+      <TechIconTooltip key="html" label="HTML">
+        <Code2 {...ICON_PROPS} />
+      </TechIconTooltip>,
+      <TechIconTooltip key="css" label="CSS">
+        <Braces {...ICON_PROPS} />
+      </TechIconTooltip>,
     ],
+    // TODO: confirm GitHub URL, or mark as private repository — pending answer.
+    link: { label: "GitHub", href: "#" },
+  },
+  {
+    title: "PopFarma — Pharmacy Management System",
+    tag: "Academic",
+    description:
+      "Team academic project (PUC Minas): a full pharmacy management system for tracking government-distributed medications. Backend in C# / .NET 8 with Entity Framework Core (code-first migrations), SQL Server, and ASP.NET Core Identity with Claims-based role authorization. Implemented staff management, medication search/inventory, and role-based dashboards following the MVC pattern.",
+    techStack: [
+      <TechIconTooltip key="csharp" label="C#">
+        <CSharpIcon />
+      </TechIconTooltip>,
+      <TechIconTooltip key="dotnet" label=".NET">
+        <DotNetIcon />
+      </TechIconTooltip>,
+      // TODO: confirm "EF Core" vs "Entity Framework Core" for this tooltip.
+      <TechIconTooltip key="efcore" label="Entity Framework Core">
+        <Layers {...ICON_PROPS} />
+      </TechIconTooltip>,
+      <TechIconTooltip key="sqlserver" label="SQL Server">
+        <Database {...ICON_PROPS} />
+      </TechIconTooltip>,
+      <TechIconTooltip key="mvc" label="MVC">
+        <LayoutTemplate {...ICON_PROPS} />
+      </TechIconTooltip>,
+    ],
+    // TODO: add public repo URL once cloned from private university repo — confirm with teammates before publishing.
     link: { label: "GitHub", href: "#" },
   },
 ];
@@ -262,25 +371,32 @@ function ProjectCard({ project }: { project: Project }) {
           ))}
         </ul>
 
-        <a
-          href={project.link.href}
-          target={project.link.href !== "#" ? "_blank" : undefined}
-          rel={project.link.href !== "#" ? "noopener noreferrer" : undefined}
-          aria-label={`${project.link.label} — ${project.title}`}
-          className="inline-flex cursor-pointer items-center gap-1.5 text-xs font-medium transition-colors duration-150"
-          style={{ color: "var(--color-text-muted)" }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.color =
-              "var(--color-cta)";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.color =
-              "var(--color-text-muted)";
-          }}
-        >
-          {project.link.label}
-          <ArrowUpRight size={13} strokeWidth={2} aria-hidden="true" />
-        </a>
+        <div className="flex items-center gap-4">
+          {[project.link, project.secondaryLink]
+            .filter((link): link is ProjectLink => link != null)
+            .map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                target={link.href !== "#" ? "_blank" : undefined}
+                rel={link.href !== "#" ? "noopener noreferrer" : undefined}
+                aria-label={`${link.label} — ${project.title}`}
+                className="inline-flex cursor-pointer items-center gap-1.5 text-xs font-medium transition-colors duration-150"
+                style={{ color: "var(--color-text-muted)" }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.color =
+                    "var(--color-cta)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.color =
+                    "var(--color-text-muted)";
+                }}
+              >
+                {link.label}
+                <ArrowUpRight size={13} strokeWidth={2} aria-hidden="true" />
+              </a>
+            ))}
+        </div>
       </div>
     </article>
   );
