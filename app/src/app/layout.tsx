@@ -25,8 +25,7 @@ const SITE_DESCRIPTION =
   "Backend developer specializing in Java/Spring Boot and C#/.NET, building full-stack systems from real estate platforms to pharmacy management applications. Currently pursuing a B.Sc. in Systems Analysis and Development.";
 
 export const metadata: Metadata = {
-  // TODO: replace with production domain once deployment platform is decided.
-  metadataBase: new URL("https://TODO-domain.vercel.app"),
+  metadataBase: new URL("https://joaovitorrocha.vercel.app"),
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
   openGraph: {
