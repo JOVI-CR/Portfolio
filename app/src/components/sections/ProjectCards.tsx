@@ -296,8 +296,7 @@ const PROJECTS: Project[] = [
         <LayoutTemplate {...ICON_PROPS} />
       </TechIconTooltip>,
     ],
-    // TODO: add public repo URL once cloned from private university repo — confirm with teammates before publishing.
-    link: { label: "GitHub", href: "#" },
+    link: { label: "GitHub", href: "https://github.com/JOVI-CR/popfarma-pharmacy-management" },
   },
 ];
 
